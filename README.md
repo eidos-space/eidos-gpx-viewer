@@ -6,7 +6,9 @@ A read-only file View for GPX tracks, routes and waypoints. Open a `.gpx` file i
 
 Requires Eidos Lite with Plugin API **3.0.0 or newer**. CLI Serve does not support this file View.
 
-In Lite's Plugin Manager, find **GPX Viewer** in the Marketplace, install it, review its access and enable it for the desired Space. You can also install `local.eidos-gpx-viewer-0.1.3.eidos-plugin` from the [GitHub Release](https://github.com/eidos-space/eidos-gpx-viewer/releases/tag/v0.1.3). An update may request renewed review for its bundled workers and the OpenFreeMap network origin. Put a GPX file in that Space, open it and choose GPX 地图. The adjacent `.sha256` file verifies the archive. For development, choose **Load development source** and select this project's `plugin.json`.
+In Lite's Plugin Manager, find **GPX Viewer** in the Marketplace, install it, review its access and enable it for the desired Space. You can also install `eidos.gpx-viewer-0.1.4.eidos-plugin` from the [GitHub Release](https://github.com/eidos-space/eidos-gpx-viewer/releases/tag/v0.1.4). An update may request renewed review for its bundled workers and the OpenFreeMap network origin. Put a GPX file in that Space, open it and choose GPX 地图. The adjacent `.sha256` file verifies the archive. For development, choose **Load development source** and select this project's `plugin.json`.
+
+Version 0.1.4 uses the official plugin ID `eidos.gpx-viewer`. If you installed 0.1.3 as `local.eidos-gpx-viewer`, disable or uninstall that copy, then install and enable the new listing. Eidos treats these IDs as separate plugins, so this is not an in-place update. Your GPX files remain in the Space folder.
 
 Android and iOS support has not been verified for this release.
 
