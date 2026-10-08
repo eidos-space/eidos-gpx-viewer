@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Eidos synthetic regression fixture" xmlns="http://www.topografix.com/GPX/1/1" xmlns:w="urn:waylog:gpx:1">
+  <metadata><name>Synthetic map example</name><desc>Generated coordinates and timestamps, not a recorded personal route.</desc></metadata>
+  <trk><name>Synthetic walking route</name><trkseg>
+      <trkpt lat="31.230400" lon="121.473700"><ele>10.0</ele><time>2026-01-01T00:00:00Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230445" lon="121.473851"><ele>10.4</ele><time>2026-01-01T00:00:05Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230490" lon="121.473998"><ele>10.8</ele><time>2026-01-01T00:00:10Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230535" lon="121.474138"><ele>11.2</ele><time>2026-01-01T00:00:15Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230580" lon="121.474267"><ele>11.6</ele><time>2026-01-01T00:00:20Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230625" lon="121.474382"><ele>12.0</ele><time>2026-01-01T00:00:25Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230670" lon="121.474481"><ele>12.4</ele><time>2026-01-01T00:00:30Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230715" lon="121.474562"><ele>12.8</ele><time>2026-01-01T00:00:35Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230760" lon="121.474622"><ele>13.2</ele><time>2026-01-01T00:00:40Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230805" lon="121.474660"><ele>13.6</ele><time>2026-01-01T00:00:45Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230850" lon="121.474676"><ele>14.0</ele><time>2026-01-01T00:00:50Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230895" lon="121.474671"><ele>14.4</ele><time>2026-01-01T00:00:55Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230940" lon="121.474643"><ele>14.8</ele><time>2026-01-01T00:01:00Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.230985" lon="121.474596"><ele>15.2</ele><time>2026-01-01T00:01:05Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231030" lon="121.474530"><ele>15.6</ele><time>2026-01-01T00:01:10Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231075" lon="121.474449"><ele>16.0</ele><time>2026-01-01T00:01:15Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231120" lon="121.474354"><ele>16.4</ele><time>2026-01-01T00:01:20Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231165" lon="121.474249"><ele>16.8</ele><time>2026-01-01T00:01:25Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231210" lon="121.474137"><ele>17.2</ele><time>2026-01-01T00:01:30Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231255" lon="121.474022"><ele>17.6</ele><time>2026-01-01T00:01:35Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231300" lon="121.473908"><ele>18.0</ele><time>2026-01-01T00:01:40Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231345" lon="121.473797"><ele>18.4</ele><time>2026-01-01T00:01:45Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231390" lon="121.473695"><ele>18.8</ele><time>2026-01-01T00:01:50Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231435" lon="121.473604"><ele>19.2</ele><time>2026-01-01T00:01:55Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+      <trkpt lat="31.231480" lon="121.473527"><ele>19.6</ele><time>2026-01-01T00:02:00Z</time><extensions><w:speedMetersPerSecond>1.5</w:speedMetersPerSecond></extensions></trkpt>
+    </trkseg></trk>
+</gpx>
