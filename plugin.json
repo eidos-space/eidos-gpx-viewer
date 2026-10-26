@@ -1,15 +1,15 @@
 {
   "apiVersion": 1,
   "id": "eidos.gpx-viewer",
-  "name": "GPX Viewer",
-  "version": "0.1.4",
+  "name": "%plugin.name%",
+  "version": "0.2.0",
   "requires": {
-    "pluginApi": "3.0.0"
+    "pluginApi": "3.7.0"
   },
   "views": [
     {
       "id": "map",
-      "title": "GPX 地图",
+      "title": "%views.map.title%",
       "entry": "./src/main.ts",
       "kind": "file",
       "access": "read"
@@ -29,5 +29,17 @@
     "networkOrigins": [
       "https://tiles.openfreemap.org"
     ]
+  },
+  "description": "%plugin.description%",
+  "i18n": {
+    "defaultLocale": "en",
+    "messages": {
+      "en": "./locales/en.json",
+      "zh-CN": "./locales/zh-CN.json"
+    },
+    "readme": {
+      "en": "./README.md",
+      "zh-CN": "./README.zh-CN.md"
+    }
   }
 }

@@ -1,3 +1,4 @@
+import type { PluginI18n } from "@eidos.space/plugin-sdk"
 import { Map, Marker, NavigationControl, LngLatBounds, setWorkerUrl, setWorkerCount } from './map-runtime.js'
 import type { GeoJSONSource, StyleSpecification } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -15,7 +16,8 @@ export class RouteMap {
   private observer: ResizeObserver
   private workerUrl: string
   private disposed = false
-  constructor(private container: HTMLElement, private status: HTMLElement) {
+  constructor(private container: HTMLElement, private status: HTMLElement, private i18n: PluginI18n) {
+    const t = i18n.t
     this.workerUrl = URL.createObjectURL(new Blob([worker], { type: 'text/javascript' }))
     setWorkerUrl(this.workerUrl); setWorkerCount(2)
     this.observer = new ResizeObserver(() => this.map?.resize())
@@ -26,13 +28,14 @@ export class RouteMap {
       this.map.addControl(new NavigationControl({ showCompass: false }), 'top-left')
       this.map.on('style.load', () => { this.ready = true; this.render() })
       this.map.on('error', () => {
-        if (!this.disposed) status.textContent = '底图加载失败；轨迹仍可查看。联网后点击“重试底图”。'
+        if (!this.disposed) { status.dataset.message = "ui.mapFailure"; status.textContent = t("ui.mapFailure") }
       })
       this.map.on('idle', () => { container.dataset.mapReady = 'true' })
       this.observer.observe(container)
     } catch {
-      status.textContent = '地图需要 WebGL。请检查 Eidos 的硬件加速设置；仍可查看轨迹统计与时间轴。'
+      status.dataset.message = "ui.webgl"; status.textContent = t("ui.webgl")
     }
+    this.updateLocale()
   }
   private style(): StyleSpecification { return structuredClone(basemap) as unknown as StyleSpecification }
   private dot(color: string, title: string): Marker {
@@ -46,14 +49,14 @@ export class RouteMap {
     this.markers.forEach(m => m.remove()); this.markers = []; this.cursor?.remove(); this.cursor = undefined
     if (this.map && route) {
       const first = route.points[0]!, last = route.points.at(-1)!
-      this.markers = [this.dot('#278061', '起点').setLngLat([first.lon, first.lat]).addTo(this.map),
-        this.dot('#bc652d', '终点').setLngLat([last.lon, last.lat]).addTo(this.map)]
+      this.markers = [this.dot('#278061', this.i18n.t("ui.start")).setLngLat([first.lon, first.lat]).addTo(this.map),
+        this.dot('#bc652d', this.i18n.t("ui.finish")).setLngLat([last.lon, last.lat]).addTo(this.map)]
     }
     this.render(); this.fit()
   }
   show(point: Point) {
     if (!this.map) return
-    this.cursor ??= this.dot('#2563eb', '当前轨迹点').setLngLat([point.lon, point.lat]).addTo(this.map)
+    this.cursor ??= this.dot('#2563eb', this.i18n.t("ui.currentPoint")).setLngLat([point.lon, point.lat]).addTo(this.map)
     this.cursor.setLngLat([point.lon, point.lat])
   }
   private render() {
@@ -80,8 +83,20 @@ export class RouteMap {
   }
   retry() {
     if (!this.map) return
-    this.status.textContent = ''; delete this.container.dataset.mapReady; this.ready = false
+    this.status.textContent = ''; delete this.status.dataset.message; delete this.container.dataset.mapReady; this.ready = false
     this.map.setStyle(this.style(), { diff: false })
+  }
+  updateLocale() {
+    if (this.status.dataset.message) this.status.textContent = this.i18n.t(this.status.dataset.message)
+    for (const [marker, key] of [[this.markers[0], "ui.start"], [this.markers[1], "ui.finish"], [this.cursor, "ui.currentPoint"]] as const) {
+      if (!marker) continue
+      const node = marker.getElement(), text = this.i18n.t(key)
+      node.title = text; node.setAttribute("aria-label", text)
+    }
+    for (const [selector, key] of [[".maplibregl-ctrl-zoom-in", "ui.zoomIn"], [".maplibregl-ctrl-zoom-out", "ui.zoomOut"]]) {
+      const node = this.container.querySelector<HTMLElement>(selector!)
+      if (node) { node.title = this.i18n.t(key!); node.setAttribute("aria-label", this.i18n.t(key!)) }
+    }
   }
   dispose() {
     if (this.disposed) return
