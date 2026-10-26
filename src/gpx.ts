@@ -18,14 +18,15 @@ export function distance(a: {lat: number; lon: number}, b: {lat: number; lon: nu
   const h = Math.sin((b.lat - a.lat) * rad / 2) ** 2 + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin((b.lon - a.lon) * rad / 2) ** 2
   return 6371008.8 * 2 * Math.asin(Math.sqrt(Math.min(1, h)))
 }
-export function parseGpx(source: string, parser: Pick<DOMParser, "parseFromString"> = new DOMParser()): GpxFile {
-  if (source.length > 16 * 1024 * 1024) throw Error("GPX 超过 16 MiB，需拆分后打开。")
-  if (/<!\s*(DOCTYPE|ENTITY)\b/i.test(source)) throw Error("不支持包含 DTD 或实体声明的 GPX。")
+export function parseGpx(source: string, parser: Pick<DOMParser, "parseFromString"> = new DOMParser(), translate?: (key: string, values?: Record<string, string | number>) => string): GpxFile {
+  const message = (key: string, fallback: string, values?: Record<string, string | number>) => translate?.(key, values) ?? fallback
+  if (source.length > 16 * 1024 * 1024) throw Error(message("ui.fileTooLarge", "GPX 超过 16 MiB，需拆分后打开。"))
+  if (/<!\s*(DOCTYPE|ENTITY)\b/i.test(source)) throw Error(message("ui.entities", "不支持包含 DTD 或实体声明的 GPX。"))
   const doc = parser.parseFromString(source, "application/xml")
   const root = doc.documentElement
-  if (!root || doc.getElementsByTagName("parsererror").length || root.localName !== "gpx" || !namespaces.has(root.namespaceURI ?? "")) throw Error("文件不是有效的 GPX 1.0 / 1.1 XML。")
+  if (!root || doc.getElementsByTagName("parsererror").length || root.localName !== "gpx" || !namespaces.has(root.namespaceURI ?? "")) throw Error(message("ui.invalidGpx", "文件不是有效的 GPX 1.0 / 1.1 XML。"))
   const version = root.getAttribute("version")
-  if (version && version !== "1.0" && version !== "1.1") throw Error(`不支持 GPX ${version}。`)
+  if (version && version !== "1.0" && version !== "1.1") throw Error(message("ui.unsupportedVersion", `不支持 GPX ${version}。`, { version }))
   const warnings: string[] = [], routes: Route[] = []
   let skipped = 0, count = 0, sequence = 0
   function route(name: string, groups: Element[][]) {
@@ -34,7 +35,7 @@ export function parseGpx(source: string, parser: Pick<DOMParser, "parseFromStrin
       segment++
       let previous: Point | undefined
       for (const node of group) {
-        if (++count > 100000) throw Error("超过 100,000 个轨迹点，需拆分后打开。")
+        if (++count > 100000) throw Error(message("ui.tooManyPoints", "超过 100,000 个轨迹点，需拆分后打开。"))
         const lat = number(node.getAttribute("lat")), lon = number(node.getAttribute("lon"))
         if (lat === null || lon === null || Math.abs(lat) > 90 || Math.abs(lon) > 180) { skipped++; previous = undefined; segment++; continue }
         const timeText = text(node, "time")
@@ -55,13 +56,13 @@ export function parseGpx(source: string, parser: Pick<DOMParser, "parseFromStrin
     const timed = points.length > 1 && points.every((p, i) => p.time !== null && (i === 0 || p.time > points[i - 1]!.time!))
     routes.push({ name, points, distance: total, timed, duration: timed ? points.at(-1)!.time! - points[0]!.time! : null })
   }
-  for (const track of children(root, "trk")) route(text(track, "name") || `轨迹 ${++sequence}`, children(track, "trkseg").map(seg => children(seg, "trkpt")))
-  for (const path of children(root, "rte")) route(text(path, "name") || `路线 ${++sequence}`, [children(path, "rtept")])
+  for (const track of children(root, "trk")) route(text(track, "name") || message("ui.trackName", `轨迹 ${++sequence}`, { count: sequence }), children(track, "trkseg").map(seg => children(seg, "trkpt")))
+  for (const path of children(root, "rte")) route(text(path, "name") || message("ui.routeName", `路线 ${++sequence}`, { count: sequence }), [children(path, "rtept")])
   const waypoints = children(root, "wpt")
-  if (waypoints.length) route("航点", waypoints.map(p => [p]))
-  if (skipped) warnings.push(`已跳过 ${skipped} 个无效坐标；断点两侧不会连线。`)
-  if (!routes.length) warnings.push("文件中没有可显示的轨迹、路线或航点。")
-  if (!root.namespaceURI) warnings.push("此文件未声明 GPX 命名空间，已兼容读取。")
+  if (waypoints.length) route(message("ui.waypoints", "航点"), waypoints.map(p => [p]))
+  if (skipped) warnings.push(message("ui.skippedCoordinates", `已跳过 ${skipped} 个无效坐标；断点两侧不会连线。`, { count: skipped }))
+  if (!routes.length) warnings.push(message("ui.noRoutes", "文件中没有可显示的轨迹、路线或航点。"))
+  if (!root.namespaceURI) warnings.push(message("ui.namespace", "此文件未声明 GPX 命名空间，已兼容读取。"))
   return { routes, warnings }
 }
 export function indexAtTime(points: Point[], time: number): number {
